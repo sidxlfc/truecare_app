@@ -41,4 +41,3 @@ namespace truecare_app
        }
     }
 }
-
