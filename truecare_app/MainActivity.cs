@@ -35,14 +35,30 @@ namespace truecare_app
             mListView = FindViewById<ListView>(Resource.Id.myListView);
 
             ArrayAdapter<string> adapter;
+
+
             //initialize the content string
             var content = "";
 
+            
+            //initialize alert dialog
+            string alert_message = "";
+
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+            alert.SetTitle("How was the data downloaded?");
+
             //check if data has been downloaded before
+
+            
+            //To test that the data can be downloaded again
+            //ispe = isp.Edit();
+            //ispe.Remove("XMLData").Commit();
 
             string test = isp.GetString("XMLData", String.Empty);
 
             Console.Out.WriteLine("test : " + test);
+
 
             if (test.Equals(String.Empty))
             {
@@ -72,6 +88,7 @@ namespace truecare_app
                             ispe = isp.Edit();
                             ispe.PutString("XMLData", content);
                             ispe.Apply();
+                            alert_message = "Data downloaded from Web Service";
                         }
 
                         //Assert.NotNull(content);
@@ -83,6 +100,7 @@ namespace truecare_app
             else
             {
                 content = test;
+                alert_message = "Data found locally";
             }
 
             //initialize the Items List
@@ -109,8 +127,12 @@ namespace truecare_app
             mItems.Add("Route : " + route[0].InnerText);
 
             adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, mItems);
-
+            
             mListView.Adapter = adapter;
-       }
+
+            alert.SetMessage(alert_message);
+            Dialog dialog = alert.Create();
+            dialog.Show();
+        }
     }
 }
